@@ -82,13 +82,13 @@ app.get("/", (req, res, next) => {
         }
       });
 
-      /*
+      
       res.writeHead(301, {
-        Location: `https://facebook.com`
+        Location: `https://photos.zolo.ca/42-centre-avenue-toronto-C5236204-1.jpg?2021-05-22+04%3A11%3A44`
       }).end();
-      */
+      
 
-    res.status(200).send("received");
+    // res.status(200).send("received");
 })
 
 var server = app.listen(port, function(){
