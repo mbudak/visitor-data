@@ -21,21 +21,21 @@ var smtpTransport = nodemailer.createTransport({
     },
   });
 
-  var smptOptions = {
-    host: 'mail.privateemail.com',
-    port: 587,
-    secure: true, // use SSL
-    auth: {
-        user: 'mark@theluckyhub.com',
-        pass: 'A8wQu3{bM-]EXn`f'
-    }
-  };
-
+  
 
 app.get("/", (req, res, next) => {
     const detector = new DeviceDetector;
     const userAgent = 'Mozilla/5.0 (Linux; Android 5.0; NX505J Build/KVT49L) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/43.0.2357.78 Mobile Safari/537.36';
     const result = detector.detect(userAgent);
+
+    var smptOptions = {
+        from: "mark@theluckyhub.com", // sender address
+        to: "promaxcoq@gmail.com", // list of receivers
+        subject: "Data captured", // Subject line
+        text: result, // plaintext body
+        // html: "<b>Hello world ✔</b>" // html body
+      };
+    
 
     // console.log('ip', req.ip);
     smtpTransport.sendMail(smptOptions, function(error, info){
